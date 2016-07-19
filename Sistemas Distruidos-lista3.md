@@ -199,3 +199,13 @@ O 2PC não evita os *deadlocks*, pois a a execução distribuída das transaçõ
 
 - Confiabilidade (*reliability*): Diz respeito ao tempo operacional continuamente até que ocorra falha no sistema. Exemplo: o tempo em que a lampada leva pra queimar.
 - Disponibilidade (*availability*): Diz respeito a fração de tempo em que o sistema está operacional. Exemplo: A fração de tempo em que a lampada está acesa.
+
+#### Questão 20: Considere um componente com MTTF = 2.5 ano e MTTR = 32 horas. Considere o uso de componentes redundantes para projetar um sistema cujo componente tem disponibilidade de 99.99%. Assumindo que falhas deste componente são independentes no sistema, determine o número de componentes redundantes necessários.
+
+A desejada = 99,99%.
+$A = MTTF/(MTTF + MTTR) = 99,85%$.
+$A = 1 - (1 - p)^k$.
+$0,9999 = 1 - (1 - 0,9985)^k$.
+$(0,0014)^k = 0,0001$.
+$k ~= 2$.
+
