@@ -163,3 +163,24 @@ Funcionamento:
 		3. Ao receber o *Abort*, o processo aborta a transação, libera os *locks* e responde OK.
 
 #### Questão 15: O protocolo Two Phase Commit (2PC) evita deadlocks em sistemas transacionais distribuídos? Explique sua resposta. Em caso negativo, como podemos lidar com deadlocks.
+
+O 2PC não evita os *deadlocks*, pois a a execução distribuída das transações pode causar uma dependência cíclica no *locks*. A forma utilizada para lidar com esse tipo de *deadlock* é a utilização de de *timeouts*. Os processos aguardam um tempo para a espera do *lock* ou das mensagens do coordenador, caso nenhum dos casos ocorra, a transação é abortada. Após abortar, o coordenador aguarda um tempo e tenta novamente executar a transação.
+
+#### Questão 16: Considere o diagrama de transição de estados do protocolo Two Phase Commit (2PC):
+
+1. **Explique o que acontece quando um processo participante falha no estado INIT. Como o protocolo recupera desta falha?**
+	- Caso um processo participante falhe no estado INIT, envia para o coordenador uma mensagem *abort* para que a transação não seja efetivada.
+
+2. **Explique o que acontece quando um processo participante falha no estado READY. Como o protocolo recupera desta falha?**
+	- Caso um processo participante galhe no estado READY, quando ele se recuperar, irá trocar mensagens com outros processos participantes para saber se foi para o estado ABORT ou COMMIt e executará o mesmo.
+
+3. **Explique o que acontece quando o coordenador falha no estado WAIT. Como o protocolo recupera desta falha?**
+	- Caso o coordenador falhe no estado WAIT, o processo em READY vai contactar outro processo para saber se a ação foi de COMMIT ou ABORT e irá repetir o mesmo. Caso todos os processos participantes estejam em READY, nenhuma decisão pode ser tomada, logo, todos aguardam C se recuperar.
+
+#### Questão 17: Explique os conflitos read-write e write-write que surgem quando temos sistemas distribuídos com dados replicados.
+
+- Conflitos *read-write*:
+	- Ess tipo de conflito ocorre quando dois processos querem ler e escrever simultaneamente. O processo 1 faz a leitura enquanto o processo 2 está alterando os dados, dessa forma o dado que foi lido pelo processo 1 não é mais o mesmo, dessa forma, incorreto.
+
+- Conflitos *write-write*:
+	- Ocorre quando dois processos tentam escrever simultaneamente. O processo 1 faz a alteração de dados e o processo 2 sobreescreve o dado. É uma situação de condição de corrida, onde o valor final não é possível ser determinado.
