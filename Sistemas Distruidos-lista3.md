@@ -184,3 +184,13 @@ O 2PC não evita os *deadlocks*, pois a a execução distribuída das transaçõ
 
 - Conflitos *write-write*:
 	- Ocorre quando dois processos tentam escrever simultaneamente. O processo 1 faz a alteração de dados e o processo 2 sobreescreve o dado. É uma situação de condição de corrida, onde o valor final não é possível ser determinado.
+
+#### Questão 18: Considere as seguintes execuções de instruções em diferentes processos, cada qual com sua memória local (assuma que inicialmente os valores das variáveis são zero). Indique quais casos (execuções) respeitam o modelo de consistência sequencial, indicando uma possível ordenação para as instruções.
+
+1. P2: R(x,0); P1: W(x,1); P2: R(x,1).
+2. Não respeita a consistência sequencial. P2 leu inicialmente `x= 1` e depois `x= 0`, sendo que o processo começa com o valor `x= 0`.
+3. P1: W(x,1); P3: R(x,1); P2: W(x,2); P3: R(x,2).
+4. P2: W(x,2); P3: R(x,2); P1: W(x,1); P3: R(x,1);
+5. Não respeita a consistência sequencial. P3 e P4 fazem a leitura de contraria, dessa forma, não é possivel determinar uma ordem para os eventos, logo a consistência sequencial não é respeitada.
+6. P4; P1; P3; P2;
+7. Não respeita a ordem de execução.
