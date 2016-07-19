@@ -90,3 +90,76 @@ Conhecer mais dois vizinhos seria vantajoso, visto que se mais de dois nós falh
 
 
 #### Questão 11: Em um sistema transacional, o que é ACID? Explique também seu significado.
+Em sistemas transacionais, ACID é um conjunto de propriedades que o sistema deve ter para garantir a corretude e facilitar o seu uso.
+Cada letra representa uma propriedade:
+
+1. A: ***Atomicity***. A transação completa por inteiro ou é abortada por inteiro. Em caso de aborto, o estado global não é modificado.
+2. C: ***Consistency***. Cada transação preserva propriedades do estado global.
+3. I: ***Isolation***. Transação executa como se fosse a única no sistema ao ler/escrever dados.
+4. D: ***Durability***. Ao concluir uma transação, sistema passa a um novo estado global que permanece, independente de eventos externos.
+
+#### Questão 12: Considere um sistema bancário transacional e a seguinte implementação da função que transfere da conta c1 para a conta c2 o valor v. Explique o que pode acontecer com esta implementação. Como você corrigiria a implementação?
+```pseudo
+transferencia(c1, c2, v) {
+  acquire(c1)
+  se (retirada(c1,v) >= 0)
+    acquire(c2)
+	deposito(c2,v)
+	release(c1)
+	release(c2)
+	retorna 0
+  release(c1)
+  retorna -1
+}
+```
+
+A implementação da função `tranferencia` é capaz de gerar um *deadlock*. Se estiver ocorrendo duas tranferencias simultaneas : c1 quer tranferir para c2 e c2 quer transferir para c1. Quando a primeira realizar o `acquire(c1)` , a segunda transferência realizará o `acquire(c2)`. Dessa maneira, cada um terá um `aquire` e nenhuma das duas transações será capaz de prosseguir.
+Para corrigir a função `transferencia` podemos fazer da seguinte forma : 
+
+```pseudo
+transferencia(c1, c2, v) {
+  acquire(min(c1,c2)) 
+  acquire(max(c1,c2))
+  se (retirada(c1,v) >= 0)
+    deposito(c2,v)
+    release(c1)
+	release(c2)
+	retorna 0
+  release(c1)
+  release(c2)
+  retorna -1
+}
+```
+
+#### Questão 13: Para que serve a técnica de *Two* *Phase* *Locking* (2PL)? Explique sucintamente como a mesma funciona.
+
+A técnica 2PL é um mencanismo para controle de concorrência. Usada para garantir atomicidade, consistência e etc. Ele permite varias leituras simultaneas e a escrita nao ocorre conconrrencia, ou seja, quando a escrita está sendo feita, não a leitura e nem escrita simultânea.(**2PL funciona para sistemas com estado global centralizado**).
+Funcionamento: 
+
+- Utiliza dois tipos de *lock* para cada objeto(dado) : *read* *lock* e *write* *lock*.
+- O *read lock* permite outro *read lock*, poré não permite *write lock*.
+- O *write lock* não permite nenhum outro *lock*.
+- É composto por duas fases, para cada transação:
+	1. Fase 1(*expanding*) : *locks* são adquiridos, nenhum é liberado.
+	2. Fase 2(*shrinking*) : *locks* são liberados, nenhum é adquirido.
+- Existem duas variações de 2PL:
+	1. *Strict Two Phase Locking* : fase 2 libera todos os *writes locks* apenas no final da transação.
+	2. *Strong Strict Two Phase Locking* : fase 2 libera os *read* e *write locks* apenas ao final da transação.
+
+#### Questão 14: Para que serve o protocolo de *Two Phase Commit* (2PC)? Explique sucintamente como o mesmo funciona.
+
+O *Two Phase Commit* é um protocolo para *commit* atômico distribuído, ou seja, é um protocolo usado para coordenação de alteração de dados em um sistema com estado global distribuido.
+Funcionamento:
+
+- O Processo que inicia a transação age como coordenador.
+- Duas Fases: 
+	1. Preparar e votar: processos localmente decidem se podem efetuar a transação. 
+		1. O coordernador envia partes diferentes da transação para diferentes processos. 
+		2. Cada processo se prepara para executar a sua parte da transação. 
+		3. Cada processo responde ao coordenador se tudo está certo para a execução ou se houve algum problema, caso haja, a transação é abortada.
+	2. Executar: processos mudam o estado local.
+		1. Se todas as respostas dos procesos forem positivas, envia a mensagem *commit*, caso ao contrario, envia uma mensagem *abort*.
+		2. Ao receber o *commit*, o processo efetua a subtransação, libera os *locks* e responde OK.
+		3. Ao receber o *Abort*, o processo aborta a transação, libera os *locks* e responde OK.
+
+#### Questão 15: O protocolo Two Phase Commit (2PC) evita deadlocks em sistemas transacionais distribuídos? Explique sua resposta. Em caso negativo, como podemos lidar com deadlocks.
