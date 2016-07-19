@@ -209,3 +209,9 @@ $0,9999 = 1 - (1 - 0,9985)^k$.
 $(0,0014)^k = 0,0001$.
 $k ~= 2$.
 
+#### Questão 21: Considere a organização de componentes redundantes TMR (Triple Modular Redundancy).Explique o que ocorre nos seguintes casos:
+
+1. **Exatamente um componente e um votador falha em cada linha.**
+	- Depende. Se a falha ocorrer na mesma coluna, ou seja, no mesmo tipo de componente, o sistema irá falhar. Porém, se for um falha em cada tipo de componente, o sistema funcionará sem problemas.
+2. **Dois votadores falham na mesma coluna.**
+	- Se dois vetores falharem na mesma coluna, o sistema não funcionará. Se dois votadores falharem, os proximos componentes receberão nenhuma entrada, logo não haverá resoltado. Como são a maioria, os proximos votadores irão ficar com a resposta vazia e o sistema não funcionará mais.
