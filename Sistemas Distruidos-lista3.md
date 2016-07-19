@@ -194,3 +194,8 @@ O 2PC não evita os *deadlocks*, pois a a execução distribuída das transaçõ
 5. Não respeita a consistência sequencial. P3 e P4 fazem a leitura de contraria, dessa forma, não é possivel determinar uma ordem para os eventos, logo a consistência sequencial não é respeitada.
 6. P4; P1; P3; P2;
 7. Não respeita a ordem de execução.
+
+#### Questão 19: Em se tratando de sistemas tolerante a falhas, qual é a diferença entre disponibilidade (availability) e confiabilidade (reliability)? Dê um exemplo.
+
+- Confiabilidade (*reliability*): Diz respeito ao tempo operacional continuamente até que ocorra falha no sistema. Exemplo: o tempo em que a lampada leva pra queimar.
+- Disponibilidade (*availability*): Diz respeito a fração de tempo em que o sistema está operacional. Exemplo: A fração de tempo em que a lampada está acesa.
