@@ -215,3 +215,8 @@ $k ~= 2$.
 	- Depende. Se a falha ocorrer na mesma coluna, ou seja, no mesmo tipo de componente, o sistema irá falhar. Porém, se for um falha em cada tipo de componente, o sistema funcionará sem problemas.
 2. **Dois votadores falham na mesma coluna.**
 	- Se dois vetores falharem na mesma coluna, o sistema não funcionará. Se dois votadores falharem, os proximos componentes receberão nenhuma entrada, logo não haverá resoltado. Como são a maioria, os proximos votadores irão ficar com a resposta vazia e o sistema não funcionará mais.
+
+#### Questão 22: Explique por que falhas bizantinas são mais difíceis de lidar do que falhas que travam (crash failures).
+
+Falhas bizantinas são falhas em que o comportamento do processo gera um resultado errado, podendo ser de forma proposital. *Crash failures* são tipos de falhas relacionados ao desligamento/desconexão do processo, sem produzir resultados errados.
+Dessa forma as falhas bizantinas são mais difíceis de serem tratas pois não é tão simples descobrir se o resultado gerado é errado ou não. O comportamento malicioso aumenta essa dificuldade, visto que pode-se produzir resultados inesperados.
