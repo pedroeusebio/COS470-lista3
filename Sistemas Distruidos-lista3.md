@@ -220,3 +220,15 @@ $k ~= 2$.
 
 Falhas bizantinas são falhas em que o comportamento do processo gera um resultado errado, podendo ser de forma proposital. *Crash failures* são tipos de falhas relacionados ao desligamento/desconexão do processo, sem produzir resultados errados.
 Dessa forma as falhas bizantinas são mais difíceis de serem tratas pois não é tão simples descobrir se o resultado gerado é errado ou não. O comportamento malicioso aumenta essa dificuldade, visto que pode-se produzir resultados inesperados.
+
+#### Questão 23: Considere o protocolo de acordo bizantino com três participantes sendo um deles operando em falha bizantina. Mostre que o protocolo falha, ou seja, que os processos que não estão em falha não chegam a um consenso sobre o identificador do outro
+
+- Três processos : P1, P2 e B(bizantino).
+- O processo P1 envia 1 para todos.
+- O processo P2 envia 2 para todos.
+- O processo B envia x para P1 e y para P2.
+- Os vetores dos Processos:
+	- P1: (1,2,x)
+	- P2: (1,2,y)
+	- B : (1,2,3)
+- Os processos não bizantinos não conseguem chegar em um acordo em relação ao identificador do b, visto que, não existe uma maioria para que seja possível eleger um indentificador.
